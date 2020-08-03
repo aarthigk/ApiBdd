@@ -65,7 +65,6 @@ def step_impl(context):
     statuscode = response.status_code
     response_codes['GET'] = statuscode
 
-
 @then(u'the user will receive valid HTTP response code 200 for "{request_name}."')
 def step_impl(context,request_name):
     print('Get rep code for '+request_name+':'+ str(response_codes[request_name]))
@@ -77,3 +76,37 @@ def step_impl(context,request_name):
     print(response_texts)
     assert response_texts[request_name] is not None
 
+@given(u'user specifies PUT posts api endpoint with param as "{1}"')
+def step_impl(context,id):
+    api_endpoints['PUT_URL'] = api_url + '/posts/' + id
+    print('url :' + api_endpoints['PUT_URL'])
+
+
+@when(u'a user Sets Update request Body')
+def step_impl(context):
+    request_bodies['PUT']={"title": "foo","body": "bar","userId": "1","id": "1"}
+
+
+@when(u'Send PUT HTTP request')
+def step_impl(context):
+    se = requests.post(url=api_endpoints['POST_URL'],headers=request_headers)  # https://jsonplaceholder.typicode.com/posts
+    response = requests.put(url=api_endpoints['PUT_URL'], json=request_bodies['PUT'], headers=request_headers)
+    response_texts['PUT'] = response.text
+    print("update response :" + response.text)
+    statuscode = response.status_code
+    response_codes['PUT'] = statuscode
+
+
+@given(u'user specifies DELETE posts api endpoint for param as "{1}"')
+def step_impl(context,id):
+    api_endpoints['DELETE_URL'] = api_url + '/posts/' + id
+    print('url :' + api_endpoints['DELETE_URL'])
+
+
+@when(u'a user Send DELETE HTTP request')
+def step_impl(context):
+    response = requests.delete(url=api_endpoints['DELETE_URL'])
+    response_texts['DELETE'] = response.text
+    print("DELETE response :" + response.text)
+    statuscode = response.status_code
+    response_codes['DELETE'] = statuscode

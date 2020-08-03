@@ -17,3 +17,15 @@ Scenario: To assert GET behaviour
 	And Sends GET HTTP request
   Then the user will receive valid HTTP response code 200 for "GET."
 	And Response BODY "GET" is non-empty
+
+Scenario:  To assert UPDATE  behaviour
+  Given user specifies PUT posts api endpoint with param as "1"
+  When a user Sets Update request Body
+	And Send PUT HTTP request
+  Then the user will receive valid HTTP response code 200 for "PUT."
+	And Response BODY "PUT" is non-empty
+
+Scenario:  To assert DELETE behaviour
+  Given user specifies DELETE posts api endpoint for param as "1"
+  When a user Send DELETE HTTP request
+  Then the user will receive valid HTTP response code 200 for "DELETE."
